@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>AML & KYC Learning Portal</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f7fb;
+            color: #172033;
+        }
+
+        header {
+            background: #0b1f3a;
+            color: white;
+            padding: 25px 7%;
+        }
+
+        header h1 {
+            font-size: 30px;
+        }
+
+        header p {
+            margin-top: 8px;
+            color: #c8d5e6;
+        }
+
+        .hero {
+            padding: 70px 7%;
+            background: linear-gradient(135deg, #0b1f3a, #164e83);
+            color: white;
+        }
+
+        .hero h2 {
+            font-size: 48px;
+            max-width: 750px;
+        }
+
+        .hero p {
+            margin-top: 20px;
+            font-size: 18px;
+            max-width: 650px;
+            line-height: 1.6;
+        }
+
+        .btn {
+            display: inline-block;
+            margin-top: 30px;
+            padding: 14px 24px;
+            background: white;
+            color: #0b1f3a;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .section {
+            padding: 55px 7%;
+        }
+
+        .section h2 {
+            margin-bottom: 30px;
+            font-size: 32px;
+        }
+
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+        }
+
+        .card {
+            background: white;
+            padding: 25px;
+            border-radius: 14px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
+            transition: 0.25s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+        }
+
+        .card h3 {
+            margin-bottom: 12px;
+        }
+
+        .card p {
+            color: #657085;
+            line-height: 1.5;
+        }
+
+        footer {
+            text-align: center;
+            padding: 25px;
+            background: #0b1f3a;
+            color: white;
+        }
+    </style>
+</head>
+
+<body>
+
+    <header>
+        <h1>AML & KYC Learning Portal</h1>
+        <p>Learn • Practice • Analyse • Master Compliance</p>
+    </header>
+
+    <section class="hero">
+        <h2>Become stronger in AML & KYC through practical learning.</h2>
+
+        <p>
+            An interactive learning platform designed to combine
+            AML/KYC concepts, real-world case studies, quizzes,
+            transaction analysis and certification preparation.
+        </p>
+
+        <a href="#modules" class="btn">Explore Learning</a>
+    </section>
+
+    <section class="section" id="modules">
+
+        <h2>Learning Modules</h2>
+
+        <div class="cards">
+
+            <div class="card">
+                <h3>🔎 AML Fundamentals</h3>
+                <p>
+                    Understand money laundering, its stages,
+                    typologies and common red flags.
+                </p>
+            </div>
+
+            <div class="card">
+                <h3>🪪 KYC & CDD</h3>
+                <p>
+                    Learn customer identification, CDD,
+                    EDD, risk classification and monitoring.
+                </p>
+            </div>
+
+            <div class="card">
+                <h3>⚖️ PMLA</h3>
+                <p>
+                    Study the Prevention of Money Laundering Act,
+                    important sections and compliance framework.
+                </p>
+            </div>
+
+            <div class="card">
+                <h3>🌐 TBML</h3>
+                <p>
+                    Explore trade-based money laundering,
+                    trade documents and suspicious patterns.
+                </p>
+            </div>
+
+        </div>
+
+    </section>
+
+    <footer>
+        <p>AML & KYC Learning Portal • Learning with every case</p>
+    </footer>
+
+</body>
+</html>
