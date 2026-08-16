@@ -120,6 +120,9 @@ footer{background:#0b2545;color:#fff;text-align:center;padding:22px}
       <p class="login-sub">Welcome, <span id="motivationName"></span>. Before you enter your learning dashboard, answer your personal motivation question.</p>
       <label class="login-label" for="motivation">🔐 Motivation Check<br>Who motivates you most to become stronger in AML & KYC?</label>
       <input id="motivation" class="login-input" type="text" placeholder="Enter your answer">
+      <div id="motivationError" style="display:none;color:#b42318;font-weight:700;margin-top:10px;text-align:left;">
+        ❌ Wrong answer. Please enter <strong>CA didi</strong> or <strong>My CA didi</strong>.
+      </div>
       <button class="primary-btn" id="enterPortal">Enter My Portal 🚀</button>
       <button class="secondary-btn" id="backName">← Back</button>
       <div class="login-foot">A reminder of the person who keeps you motivated.</div>
@@ -271,8 +274,31 @@ document.addEventListener("DOMContentLoaded", function(){
 
   document.getElementById("enterPortal").addEventListener("click", function(){
     const name = document.getElementById("userName").value.trim();
-    const motivation = document.getElementById("motivation").value.trim();
-    if(!motivation){ alert("Please enter your motivation first."); return; }
+    const motivationInput = document.getElementById("motivation");
+    const motivationError = document.getElementById("motivationError");
+    const motivation = motivationInput.value.trim().toLowerCase();
+
+    motivationError.style.display = "none";
+    motivationInput.style.borderColor = "#d7e2ed";
+
+    if(!motivation){
+      motivationError.innerHTML = "⚠️ Please enter your answer first.";
+      motivationError.style.display = "block";
+      motivationInput.style.borderColor = "#b42318";
+      motivationInput.focus();
+      return;
+    }
+
+    // Only these two answers are accepted (capitalization does not matter).
+    if(motivation !== "ca didi" && motivation !== "my ca didi"){
+      motivationError.innerHTML =
+        "❌ <strong>Wrong answer.</strong> Please enter <strong>CA didi</strong> or <strong>My CA didi</strong>.";
+      motivationError.style.display = "block";
+      motivationInput.style.borderColor = "#b42318";
+      motivationInput.value = "";
+      motivationInput.focus();
+      return;
+    }
 
     localStorage.setItem("amlKycUserName", name);
     localStorage.setItem("amlKycMotivation", motivation);
