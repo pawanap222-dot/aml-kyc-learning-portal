@@ -1,177 +1,435 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AML & KYC Learning Portal</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --navy:#0b2545;--blue:#1677c8;--blue2:#1f5d96;--bg:#f3f7fc;
+  --card:#fff;--text:#17324d;--muted:#61748a;--line:#dce6f0;
+  --green:#168a55;--orange:#f59e0b;--shadow:0 12px 35px rgba(15,45,75,.10)
+}
+body{font-family:Arial,Helvetica,sans-serif;background:var(--bg);color:var(--text);line-height:1.6}
+button,input{font:inherit}
+button{cursor:pointer}
+.hidden{display:none!important}
 
-    <title>AML & KYC Learning Portal</title>
+/* LOGIN */
+.login-page{min-height:100vh;background:linear-gradient(135deg,#08284e,#1d5e95);display:flex;align-items:center;justify-content:center;padding:28px}
+.login-card{width:min(520px,100%);background:#fff;border-radius:28px;padding:42px 42px 34px;text-align:center;box-shadow:0 25px 60px rgba(0,0,0,.22)}
+.login-icon{font-size:64px;margin-bottom:8px}
+.step{font-size:14px;letter-spacing:1px;color:#61748a;margin-bottom:2px}
+.login-card h1{font-size:32px;color:#102f50;margin-bottom:10px}
+.login-sub{color:#6d7f92;margin-bottom:28px}
+.login-label{font-weight:700;text-align:left;display:block;margin:18px 0 8px}
+.login-input{width:100%;padding:16px;border:2px solid #d7e2ed;border-radius:14px;outline:none}
+.login-input:focus{border-color:#1686d6}
+.primary-btn{width:100%;border:0;border-radius:14px;padding:16px;background:linear-gradient(90deg,#147dcc,#205a91);color:#fff;font-weight:700;font-size:17px;margin-top:18px}
+.secondary-btn{width:100%;border:0;border-radius:14px;padding:14px;background:#edf4fb;color:#24577f;font-weight:700;margin-top:8px}
+.login-foot{color:#8ca0b4;font-size:14px;margin-top:20px}
 
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+/* APP */
+.top-nav{height:74px;background:var(--navy);color:#fff;display:flex;align-items:center;justify-content:space-between;padding:0 5%;position:sticky;top:0;z-index:20;box-shadow:0 3px 14px rgba(0,0,0,.15)}
+.logo{font-size:21px;font-weight:800}
+.nav-links{display:flex;gap:8px}
+.nav-links button{background:transparent;color:#fff;border:0;padding:12px 16px;border-radius:10px;font-weight:700}
+.nav-links button:hover,.nav-links button.active{background:rgba(255,255,255,.12)}
+main{max-width:1250px;margin:auto;padding:32px 22px 70px}
+.welcome-box{background:linear-gradient(135deg,#fff,#eef7ff);border:1px solid #d9e8f5;border-radius:20px;padding:28px;box-shadow:var(--shadow);margin-bottom:24px}
+.welcome-box h2{font-size:30px}
+.current-time{color:var(--muted);margin-top:2px}
+.level-badge{display:inline-block;margin-top:14px;background:#e8f3ff;color:#1263a0;border-radius:999px;padding:6px 13px;font-weight:700}
+.stats{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-bottom:28px}
+.stat{background:#fff;border:1px solid var(--line);border-radius:16px;padding:20px;box-shadow:var(--shadow)}
+.stat .num{font-size:27px;font-weight:800}
+.stat small{color:var(--muted)}
+.section-title{font-size:28px;margin:28px 0 16px}
+.progress-wrap{height:12px;background:#e6eef6;border-radius:20px;overflow:hidden;margin-top:10px}
+.progress-bar{height:100%;width:0;background:linear-gradient(90deg,#1677c8,#35a3ed);transition:.3s}
+.next-card{background:#fff;border-radius:18px;border:1px solid var(--line);padding:24px;box-shadow:var(--shadow)}
+.course-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+.course-card{background:#fff;border:1px solid var(--line);border-radius:18px;padding:22px;box-shadow:var(--shadow);display:flex;flex-direction:column;min-height:250px}
+.course-icon{font-size:35px}
+.course-card h3{font-size:21px;margin:8px 0}
+.course-card p{color:var(--muted);flex:1}
+.course-card button{border:0;background:none;color:#006ed0;text-decoration:underline;text-align:left;font-weight:700;padding-top:12px}
+.lesson-page{background:#fff;border:1px solid var(--line);border-radius:20px;box-shadow:var(--shadow);overflow:hidden}
+.lesson-head{background:linear-gradient(135deg,#0b2545,#1c5f98);color:#fff;padding:32px}
+.lesson-head h1{font-size:32px}
+.lesson-body{padding:34px}
+.lesson-body h2{font-size:24px;color:#123d65;margin:25px 0 8px}
+.lesson-body h3{font-size:19px;color:#1d537e;margin-top:14px}
+.lesson-body p{margin:7px 0}
+.lesson-body .note{background:#f4f8fc;border-left:4px solid #1677c8;padding:14px 16px;border-radius:8px;margin:16px 0}
+.lesson-actions{padding:24px 34px 34px;border-top:1px solid var(--line)}
+.complete-btn{border:0;background:var(--green);color:#fff;border-radius:12px;padding:14px 22px;font-weight:800}
+.back-btn{border:0;background:#eaf2fa;color:#24577f;border-radius:12px;padding:12px 18px;font-weight:700;margin-right:8px}
+.practice-grid{display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.practice-card{background:#fff;border:1px solid var(--line);border-radius:18px;padding:24px;box-shadow:var(--shadow)}
+.practice-card textarea,.practice-card select{width:100%;padding:12px;border:1px solid var(--line);border-radius:10px;margin-top:10px}
+.score{font-size:30px;font-weight:800;color:var(--green);margin-top:15px}
+footer{background:#0b2545;color:#fff;text-align:center;padding:22px}
 
-        body {
-            font-family: Arial, sans-serif;
-            background: #f4f7fb;
-            color: #172033;
-        }
+/* MODAL */
+.modal{position:fixed;inset:0;background:rgba(3,20,38,.65);display:flex;align-items:center;justify-content:center;padding:20px;z-index:50}
+.modal-card{background:#fff;border-radius:20px;max-width:700px;width:100%;max-height:90vh;overflow:auto;padding:28px}
+.modal-card h2{margin-bottom:14px}
+.quiz-option{display:block;width:100%;text-align:left;border:1px solid var(--line);background:#f8fbfe;padding:12px;border-radius:10px;margin:8px 0}
+.quiz-option:hover{border-color:#1677c8;background:#eef7ff}
 
-        header {
-            background: #0b1f3a;
-            color: white;
-            padding: 25px 7%;
-        }
-
-        header h1 {
-            font-size: 30px;
-        }
-
-        header p {
-            margin-top: 8px;
-            color: #c8d5e6;
-        }
-
-        .hero {
-            padding: 70px 7%;
-            background: linear-gradient(135deg, #0b1f3a, #164e83);
-            color: white;
-        }
-
-        .hero h2 {
-            font-size: 48px;
-            max-width: 750px;
-        }
-
-        .hero p {
-            margin-top: 20px;
-            font-size: 18px;
-            max-width: 650px;
-            line-height: 1.6;
-        }
-
-        .btn {
-            display: inline-block;
-            margin-top: 30px;
-            padding: 14px 24px;
-            background: white;
-            color: #0b1f3a;
-            border-radius: 8px;
-            text-decoration: none;
-            font-weight: bold;
-        }
-
-        .section {
-            padding: 55px 7%;
-        }
-
-        .section h2 {
-            margin-bottom: 30px;
-            font-size: 32px;
-        }
-
-        .cards {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 20px;
-        }
-
-        .card {
-            background: white;
-            padding: 25px;
-            border-radius: 14px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.08);
-            transition: 0.25s;
-        }
-
-        .card:hover {
-            transform: translateY(-5px);
-        }
-
-        .card h3 {
-            margin-bottom: 12px;
-        }
-
-        .card p {
-            color: #657085;
-            line-height: 1.5;
-        }
-
-        footer {
-            text-align: center;
-            padding: 25px;
-            background: #0b1f3a;
-            color: white;
-        }
-    </style>
+@media(max-width:900px){
+ .stats,.course-grid{grid-template-columns:repeat(2,1fr)}
+ .nav-links button{padding:9px 8px;font-size:13px}
+ .logo{font-size:17px}
+}
+@media(max-width:620px){
+ .login-card{padding:30px 22px}
+ .login-card h1{font-size:27px}
+ .top-nav{height:auto;min-height:70px;flex-wrap:wrap;padding:12px 15px;gap:8px}
+ .nav-links{width:100%;justify-content:space-between}
+ .nav-links button{font-size:12px;padding:7px 5px}
+ .stats,.course-grid,.practice-grid{grid-template-columns:1fr}
+ main{padding:20px 13px 50px}
+ .lesson-head h1{font-size:25px}
+ .lesson-body{padding:22px}
+}
+</style>
 </head>
-
 <body>
 
-    <header>
-        <h1>AML & KYC Learning Portal</h1>
-        <p>Learn • Practice • Analyse • Master Compliance</p>
-    </header>
+<!-- LOGIN FLOW -->
+<section id="loginPage" class="login-page">
+  <div class="login-card">
+    <div id="loginStep1">
+      <div class="login-icon">🛡️</div>
+      <div class="step">STEP 1 OF 2</div>
+      <h1>Welcome to AML & KYC</h1>
+      <p class="login-sub">Your personal learning journey starts here.</p>
+      <label class="login-label" for="userName">What should we call you?</label>
+      <input id="userName" class="login-input" type="text" placeholder="Enter your name" autocomplete="name">
+      <button class="primary-btn" id="nameNext">Continue 🚀</button>
+      <div class="login-foot">Learn • Practice • Improve • Master</div>
+    </div>
 
-    <section class="hero">
-        <h2>Become stronger in AML & KYC through practical learning.</h2>
+    <div id="loginStep2" class="hidden">
+      <div class="login-icon">🏆</div>
+      <div class="step">STEP 2 OF 2</div>
+      <h1>One More Step</h1>
+      <p class="login-sub">Welcome, <span id="motivationName"></span>. Before you enter your learning dashboard, answer your personal motivation question.</p>
+      <label class="login-label" for="motivation">🔐 Motivation Check<br>Who motivates you most to become stronger in AML & KYC?</label>
+      <input id="motivation" class="login-input" type="text" placeholder="Enter your answer">
+      <button class="primary-btn" id="enterPortal">Enter My Portal 🚀</button>
+      <button class="secondary-btn" id="backName">← Back</button>
+      <div class="login-foot">A reminder of the person who keeps you motivated.</div>
+    </div>
+  </div>
+</section>
 
-        <p>
-            An interactive learning platform designed to combine
-            AML/KYC concepts, real-world case studies, quizzes,
-            transaction analysis and certification preparation.
-        </p>
+<!-- APPLICATION -->
+<div id="app" class="hidden">
+<header class="top-nav">
+  <div class="logo">🛡️ AML & KYC Learning Portal</div>
+  <nav class="nav-links">
+    <button data-page="home" class="active">🏠 Home</button>
+    <button data-page="modules">📚 Modules</button>
+    <button data-page="practice">📝 Practice</button>
+    <button data-page="progress">📊 Progress</button>
+  </nav>
+</header>
 
-        <a href="#modules" class="btn">Explore Learning</a>
-    </section>
+<main>
+  <!-- HOME -->
+  <section id="page-home">
+    <div class="welcome-box">
+      <h2 id="greeting">Good Morning 👋</h2>
+      <p class="current-time" id="currentTime">Loading time...</p>
+      <p>Continue your journey to become stronger in AML & KYC. 🎯</p>
+      <span class="level-badge">🛡️ AML Explorer</span>
+    </div>
 
-    <section class="section" id="modules">
+    <div class="stats">
+      <div class="stat"><div class="num" id="moduleCount">0 / 32</div><small>📚 Modules Completed</small></div>
+      <div class="stat"><div class="num" id="overallProgress">0%</div><small>🎯 Overall Progress</small></div>
+      <div class="stat"><div class="num" id="quizCount">0</div><small>📝 Quizzes Completed</small></div>
+      <div class="stat"><div class="num" id="streak">0</div><small>🔥 Learning Streak</small></div>
+    </div>
 
-        <h2>Learning Modules</h2>
+    <h2 class="section-title">📈 Your Learning Progress</h2>
+    <div class="next-card">
+      <p>Your AML/KYC journey starts here.</p>
+      <div class="progress-wrap"><div id="homeProgress" class="progress-bar"></div></div>
+      <p id="progressText">0% of 32 modules 🎯 Keep going!</p>
+    </div>
 
-        <div class="cards">
+    <h2 class="section-title">📚 Continue Learning</h2>
+    <div class="next-card">
+      <p>Pick up exactly where you left off.</p>
+      <p><strong id="nextLesson">Module 1 of 32</strong></p>
+      <button class="primary-btn" style="max-width:240px" onclick="openLesson('aml1')">Continue →</button>
+    </div>
 
-            <div class="card">
-                <h3>🔎 AML Fundamentals</h3>
-                <p>
-                    Understand money laundering, its stages,
-                    typologies and common red flags.
-                </p>
-            </div>
+    <h2 class="section-title">🧭 Learning Paths</h2>
+    <div class="course-grid">
+      <article class="course-card"><div class="course-icon">🔎</div><h3>AML Fundamentals</h3><p>Understand money laundering, its stages, typologies and common red flags.</p><button onclick="openCourse('aml')">Start Learning →</button></article>
+      <article class="course-card"><div class="course-icon">🪪</div><h3>KYC & CDD</h3><p>Learn customer identification, CDD, EDD, risk classification and monitoring.</p><button onclick="openCourse('kyc')">Start Learning →</button></article>
+      <article class="course-card"><div class="course-icon">⚖️</div><h3>PMLA</h3><p>Study the Prevention of Money Laundering Act, important sections and compliance framework.</p><button onclick="openCourse('pmla')">Start Learning →</button></article>
+      <article class="course-card"><div class="course-icon">🌐</div><h3>TBML</h3><p>Explore trade-based money laundering, trade documents and suspicious patterns.</p><button onclick="openCourse('tbml')">Start Learning →</button></article>
+    </div>
+  </section>
 
-            <div class="card">
-                <h3>🪪 KYC & CDD</h3>
-                <p>
-                    Learn customer identification, CDD,
-                    EDD, risk classification and monitoring.
-                </p>
-            </div>
+  <!-- MODULES -->
+  <section id="page-modules" class="hidden">
+    <h1 class="section-title">📚 AML & KYC Modules</h1>
+    <div class="course-grid">
+      <article class="course-card"><div class="course-icon">🔎</div><h3>AML Fundamentals</h3><p>Foundation concepts, stages, real-world cases and terrorism financing.</p><button onclick="openCourse('aml')">Open Course →</button></article>
+      <article class="course-card"><div class="course-icon">🪪</div><h3>KYC & CDD</h3><p>Customer identification, CDD, EDD, risk and ongoing monitoring.</p><button onclick="openCourse('kyc')">Open Course →</button></article>
+      <article class="course-card"><div class="course-icon">⚖️</div><h3>PMLA</h3><p>PMLA framework, offences, attachment, reporting and important concepts.</p><button onclick="openCourse('pmla')">Open Course →</button></article>
+      <article class="course-card"><div class="course-icon">🌐</div><h3>TBML</h3><p>Trade documents, over/under invoicing and TBML indicators.</p><button onclick="openCourse('tbml')">Open Course →</button></article>
+    </div>
+  </section>
 
-            <div class="card">
-                <h3>⚖️ PMLA</h3>
-                <p>
-                    Study the Prevention of Money Laundering Act,
-                    important sections and compliance framework.
-                </p>
-            </div>
+  <!-- COURSE -->
+  <section id="page-course" class="hidden">
+    <button class="back-btn" onclick="showPage('modules')">← Back to Modules</button>
+    <div id="courseContent"></div>
+  </section>
 
-            <div class="card">
-                <h3>🌐 TBML</h3>
-                <p>
-                    Explore trade-based money laundering,
-                    trade documents and suspicious patterns.
-                </p>
-            </div>
+  <!-- LESSON -->
+  <section id="page-lesson" class="hidden">
+    <div class="lesson-page">
+      <div class="lesson-head">
+        <div>📖 LECTURE 1</div>
+        <h1 id="lessonTitle">Lecture 1: Introduction to AML & KYC</h1>
+        <p>Read the complete lecture from top to bottom. At the end, mark it as complete.</p>
+      </div>
+      <div id="lessonBody" class="lesson-body"></div>
+      <div class="lesson-actions">
+        <button class="back-btn" onclick="openCourse('aml')">← Back to Course</button>
+        <button id="markComplete" class="complete-btn" onclick="completeLecture()">✓ Mark Lecture 1 as Complete</button>
+      </div>
+    </div>
+  </section>
 
-        </div>
+  <!-- PRACTICE -->
+  <section id="page-practice" class="hidden">
+    <h1 class="section-title">📝 Practice Zone</h1>
+    <div class="practice-grid">
+      <div class="practice-card">
+        <h2>AML Case Practice</h2>
+        <p>Write how you would approach a suspicious transaction case.</p>
+        <textarea rows="8" placeholder="Enter your analysis..."></textarea>
+        <button class="primary-btn" onclick="alert('Practice response saved for this session.')">Save Practice</button>
+      </div>
+      <div class="practice-card">
+        <h2>Quick Knowledge Check</h2>
+        <p><strong>Which sequence represents the traditional three stages of money laundering?</strong></p>
+        <button class="quiz-option" onclick="answerQuiz(this,true)">Placement → Layering → Integration</button>
+        <button class="quiz-option" onclick="answerQuiz(this,false)">Integration → Placement → Layering</button>
+        <button class="quiz-option" onclick="answerQuiz(this,false)">Layering → Integration → Placement</button>
+        <div id="quizResult"></div>
+      </div>
+    </div>
+  </section>
 
-    </section>
+  <!-- PROGRESS -->
+  <section id="page-progress" class="hidden">
+    <h1 class="section-title">📊 Your Progress</h1>
+    <div class="next-card">
+      <h2 id="progressHeading">0% Complete</h2>
+      <p id="progressDetails">No lectures completed yet.</p>
+      <div class="progress-wrap"><div id="progressPageBar" class="progress-bar"></div></div>
+    </div>
+  </section>
+</main>
+<footer>AML & KYC Learning Portal • Learning with every case</footer>
+</div>
 
-    <footer>
-        <p>AML & KYC Learning Portal • Learning with every case</p>
-    </footer>
+<script>
+document.addEventListener("DOMContentLoaded", function(){
+  const savedName = localStorage.getItem("amlKycUserName");
+  const loginPage = document.getElementById("loginPage");
+  const app = document.getElementById("app");
 
+  // Always show the two-step login when the page is opened.
+  loginPage.classList.remove("hidden");
+  app.classList.add("hidden");
+
+  document.getElementById("nameNext").addEventListener("click", function(){
+    const name = document.getElementById("userName").value.trim();
+    if(!name){ alert("Please enter your name first."); return; }
+    document.getElementById("motivationName").textContent = name;
+    document.getElementById("loginStep1").classList.add("hidden");
+    document.getElementById("loginStep2").classList.remove("hidden");
+  });
+
+  document.getElementById("backName").addEventListener("click", function(){
+    document.getElementById("loginStep2").classList.add("hidden");
+    document.getElementById("loginStep1").classList.remove("hidden");
+  });
+
+  document.getElementById("enterPortal").addEventListener("click", function(){
+    const name = document.getElementById("userName").value.trim();
+    const motivation = document.getElementById("motivation").value.trim();
+    if(!motivation){ alert("Please enter your motivation first."); return; }
+
+    localStorage.setItem("amlKycUserName", name);
+    localStorage.setItem("amlKycMotivation", motivation);
+    loginPage.classList.add("hidden");
+    app.classList.remove("hidden");
+    updateUserUI();
+    showPage("home");
+  });
+
+  document.querySelectorAll(".nav-links button").forEach(btn=>{
+    btn.addEventListener("click",()=>showPage(btn.dataset.page));
+  });
+
+  updateClock();
+  setInterval(updateClock,1000);
+  updateUserUI();
+});
+
+function updateClock(){
+  const now=new Date();
+  const h=now.getHours();
+  const greeting=h<12?"Good Morning":h<17?"Good Afternoon":"Good Evening";
+  const name=localStorage.getItem("amlKycUserName") || "Learner";
+  const g=document.getElementById("greeting");
+  if(g) g.textContent=`${greeting}, ${name} 👋`;
+  const t=document.getElementById("currentTime");
+  if(t) t.textContent=now.toLocaleString([], {weekday:"long",year:"numeric",month:"long",day:"numeric",hour:"2-digit",minute:"2-digit",second:"2-digit"});
+}
+
+function updateUserUI(){
+  const name=localStorage.getItem("amlKycUserName") || "Learner";
+  const g=document.getElementById("greeting");
+  if(g) g.textContent=`${getGreeting()}, ${name} 👋`;
+  updateProgress();
+}
+function getGreeting(){
+  const h=new Date().getHours();
+  return h<12?"Good Morning":h<17?"Good Afternoon":"Good Evening";
+}
+
+function showPage(page){
+  ["home","modules","course","lesson","practice","progress"].forEach(p=>{
+    const el=document.getElementById("page-"+p);
+    if(el) el.classList.toggle("hidden",p!==page);
+  });
+  document.querySelectorAll(".nav-links button").forEach(b=>{
+    b.classList.toggle("active",b.dataset.page===page);
+  });
+  window.scrollTo({top:0,behavior:"smooth"});
+}
+
+const courses={
+  aml:{title:"🔎 AML Fundamentals",desc:"Build a strong foundation in Anti-Money Laundering.",lessons:["Lecture 1: What is Money Laundering?"]},
+  kyc:{title:"🪪 KYC & CDD",desc:"Customer identification, CDD, EDD, risk classification and monitoring.",lessons:["Lecture 1: KYC & CDD Foundation"]},
+  pmla:{title:"⚖️ PMLA",desc:"Study the Prevention of Money Laundering Act and its compliance framework.",lessons:["Lecture 1: PMLA Foundation"]},
+  tbml:{title:"🌐 TBML",desc:"Learn trade-based money laundering and suspicious trade patterns.",lessons:["Lecture 1: TBML Foundation"]}
+};
+
+function openCourse(key){
+  const c=courses[key];
+  let lessonHTML=c.lessons.map((l,i)=>`
+    <div class="next-card" style="margin-top:16px">
+      <h2>${l}</h2>
+      <p>${i===0 && key==="aml" ? "Complete Lecture 1 from start to finish. The complete lecture appears on one scrollable page." : c.desc}</p>
+      <button class="primary-btn" style="max-width:220px" onclick="${key==="aml"?"openLesson('aml1')":"alert('This course is ready for the next lecture to be added.')"}">Start Learning →</button>
+    </div>`).join("");
+  document.getElementById("courseContent").innerHTML=`
+    <div class="welcome-box" style="margin-top:18px">
+      <h1>${c.title}</h1><p>${c.desc}</p>
+    </div>
+    <h2 class="section-title">📖 Lectures</h2>${lessonHTML}`;
+  showPage("course");
+}
+
+function openLesson(id){
+  if(id!=="aml1") return;
+  document.getElementById("lessonTitle").textContent="Lecture 1: What is Money Laundering?";
+  document.getElementById("lessonBody").innerHTML=`
+    <h2>1. What is Money Laundering?</h2>
+    <p>Think of money laundering as a "cleaning" process for "dirty" money.</p>
+    <p><strong>The "Dirty" Money:</strong> This is money earned from illegal acts like drug trafficking, theft, child trafficking, or tax evasion.</p>
+    <p><strong>The "Laundry" Process:</strong> Criminals try to hide where this money came from so they can use it without getting caught. They move it through banks and financial institutions to make it look like it came from a legal source.</p>
+
+    <h2>2. The Three Steps of the "Wash"</h2>
+    <p>Launderers usually follow three specific stages to hide their tracks:</p>
+    <p><strong>Placement:</strong> This is the riskiest part where they put small amounts of illegal cash into the banking system.</p>
+    <p><strong>Layering:</strong> They move the money around through many different accounts, wire transfers, or fake invoices to create "layers" that make the original source impossible to trace.</p>
+    <p><strong>Integration:</strong> Finally, the "clean" money is used to buy legitimate assets, like real estate or property, making it look like it was earned legally.</p>
+
+    <h2>3. Why is This a Big Deal for the World?</h2>
+    <p>Money laundering isn't a victimless crime; it hurts the economy in several ways:</p>
+    <p><strong>Unfair Competition:</strong> Honest businesses can't compete with companies that are funded by illegal, untaxed money.</p>
+    <p><strong>Government Struggles:</strong> It makes it very hard for governments to manage the country's money supply because they don't know how much "shadow" money is moving around.</p>
+    <p><strong>Threat to Democracy:</strong> If criminals get too much money and power, they can start controlling political systems, which weakens a country's democratic foundation.</p>
+
+    <h2>4. Real-World Lessons (Famous Cases)</h2>
+    <p>The sources highlight three major examples of how banks have been used for laundering:</p>
+    <p><strong>The "Layers" Trick (BCCI):</strong> The Bank of Credit and Commerce International used incredibly complex structures with many layers of companies and subsidiaries to hide their fraud. In 1991, regulators discovered the truth and seized over US$ 12 billion.</p>
+    <p><strong>The "Digital Haven" (EUB):</strong> The European Union Bank of Antigua was the first internet-based bank, and it actually advertised to people who wanted to hide "dirty money" or evade taxes. They used numbered accounts and passwords instead of signatures to keep identities secret. Eventually, the bank collapsed in 1997 and the owners ran off with everyone's deposits.</p>
+    <p><strong>Hiding a Dictator’s Wealth (Riggs Bank):</strong> This bank helped the former Chilean dictator Augusto Pinochet hide millions of dollars he had stolen. They even hid his accounts from US regulators so he could keep access to his money. The bank eventually had to pay US$ 9 million to Pinochet’s victims.</p>
+
+    <h2>5. Importance of KYC (Know Your Customer)</h2>
+    <p>In 2014, the Reserve Bank of India (RBI) investigated several public sector banks and found they weren't following KYC norms. Specifically, they weren't checking customer identities properly or monitoring accounts for suspicious activity. This allowed people to commit fraud with fixed deposits, and as a result, the RBI fined three banks Rs. 1.5 crore each.</p>
+
+    <h2>6. Understanding Terrorism Financing (TF)</h2>
+    <p>Terrorism financing is different from money laundering in one major way: where the money comes from.</p>
+    <p><strong>Sources:</strong> In TF, the money can come from both legal and illegal sources (like a legitimate charity or a criminal group).</p>
+    <p><strong>The Goal:</strong> The goal is to provide funds specifically to support terrorist acts or groups.</p>
+    <p><strong>What they hide:</strong> Instead of hiding the source of the money, they try to hide the intended use of the money.</p>
+    <p><strong>The Offense:</strong> It is a crime to willingly collect or provide funds for acts that cause death or injury to civilians or are meant to force a government to do something.</p>
+
+    <h2>7. Summary: How ML and TF are Related</h2>
+    <p>While they have different starting points, both crimes use the same techniques to move money through the financial system.</p>
+    <p><strong>Money Laundering:</strong> Moves illegal money to make it look legal.</p>
+    <p><strong>Terrorism Financing:</strong> Can use any money (legal or illegal) for a criminal purpose. Because they use the same methods, the rules we use to stop money laundering are also the best tools we have for catching and stopping terrorism financing.</p>
+
+    <div class="note"><strong>📌 Study instruction:</strong> Read the entire lecture from Section 1 through Section 7. When you reach the bottom, use <strong>Mark Lecture 1 as Complete</strong>.</div>
+  `;
+  document.getElementById("markComplete").textContent=isCompleted("aml1")?"✓ Lecture 1 Completed":"✓ Mark Lecture 1 as Complete";
+  showPage("lesson");
+}
+
+function isCompleted(id){
+  return localStorage.getItem("completed_"+id)==="true";
+}
+function completeLecture(){
+  localStorage.setItem("completed_aml1","true");
+  document.getElementById("markComplete").textContent="✓ Lecture 1 Completed";
+  updateProgress();
+  alert("Excellent! Lecture 1 has been marked as complete. 🎯");
+}
+
+function updateProgress(){
+  const completed=isCompleted("aml1")?1:0;
+  const pct=Math.round((completed/32)*100);
+  ["moduleCount"].forEach(id=>{const e=document.getElementById(id);if(e)e.textContent=`${completed} / 32`});
+  const o=document.getElementById("overallProgress");if(o)o.textContent=pct+"%";
+  const q=document.getElementById("quizCount");if(q)q.textContent=localStorage.getItem("quizCompleted")==="true"?"1":"0";
+  const s=document.getElementById("streak");if(s)s.textContent=completed?"1":"0";
+  const bars=["homeProgress","progressPageBar"];
+  bars.forEach(id=>{const e=document.getElementById(id);if(e)e.style.width=pct+"%"});
+  const pt=document.getElementById("progressText");if(pt)pt.textContent=`${pct}% of 32 modules 🎯 Keep going!`;
+  const ph=document.getElementById("progressHeading");if(ph)ph.textContent=pct+"% Complete";
+  const pd=document.getElementById("progressDetails");if(pd)pd.textContent=completed?"Lecture 1 completed. Keep building your AML/KYC knowledge.":"No lectures completed yet.";
+}
+
+function answerQuiz(button,correct){
+  document.querySelectorAll(".quiz-option").forEach(b=>b.disabled=true);
+  const r=document.getElementById("quizResult");
+  if(correct){
+    r.innerHTML='<div class="score">Correct! 🎯</div>';
+    localStorage.setItem("quizCompleted","true");
+  }else{
+    r.innerHTML='<div style="color:#b42318;font-weight:700;margin-top:15px">Not quite. Review Lecture 1 and try again.</div>';
+  }
+  updateProgress();
+}
+</script>
 </body>
 </html>
